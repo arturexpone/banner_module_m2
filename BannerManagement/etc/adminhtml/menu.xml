@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="M2task_BannerManagement::bannermanagement" title="Banner Management" action="bannermanagement/settings" translate="title" module="M2task_BannerManagement" sortOrder="50" dependsOnModule="M2task_BannerManagement" resource="M2task_BannerManagement::bannermanagement"/>
+    </menu>
+</config>
