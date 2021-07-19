@@ -23,12 +23,10 @@ define(
                 }]
             };
 
-            var popup = modal(options, $('.banner-modal'));
+            modal(options, $('.banner-modal'));
             $(".banner-wrapper").click(function () {
                 $('.banner-modal').modal('openModal');
             });
-
-            return popup;
         }
 
         function createModal() {
@@ -43,20 +41,6 @@ define(
 
             wrapper.append(bannerContent);
             wrapper.append(bannerModal);
-            // return $(`
-            //     <div class="banner-wrapper">
-            //         <div class="banner-content">
-            //
-            //         </div>
-            //         <div class="banner-modal">
-            //             <div class="banner-modal-popup">
-            //                 <div class="banner-modal-popup_content">
-            //
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // `);
             return wrapper;
         }
 

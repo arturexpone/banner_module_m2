@@ -112,7 +112,6 @@ class Index implements HttpGetActionInterface
     {
         $reqParams = $this->context->getRequest()->getParams();
 
-
         if (isset($reqParams['getBanner'])) {
             $res = $this->_jsonFactory->create();
             $bannersData = '';

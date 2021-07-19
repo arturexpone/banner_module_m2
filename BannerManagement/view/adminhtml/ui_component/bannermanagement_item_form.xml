@@ -161,5 +161,20 @@
                 </checkbox>
             </formElements>
         </field>
+        <field name="group_code" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">label</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Group Code</label>
+                <dataScope>group_code</dataScope>
+            </settings>
+        </field>
     </fieldset>
 </form>

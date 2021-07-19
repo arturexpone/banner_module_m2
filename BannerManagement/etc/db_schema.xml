@@ -10,6 +10,7 @@
         <column xsi:type="text" name="banner_text_content" nullable="true" comment="Banner text content"/>
         <column xsi:type="text" name="banner_popup_text_content" nullable="true" comment="Banner popup text content"/>
         <column xsi:type="boolean" name="show_once" nullable="false" default="0" comment="Show once"/>
+        <column xsi:type="varchar" name="group_code" nullable="false" length="255" comment="Group Code"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="banner_id"/>
         </constraint>

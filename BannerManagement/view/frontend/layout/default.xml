@@ -2,4 +2,7 @@
     <referenceContainer name="after.body.start">
         <block name="banner.frontend" template="M2task_BannerManagement::m2_banner.phtml"/>
     </referenceContainer>
+    <referenceContainer name="content">
+<!--        <uiComponent name="banner_grid_listing" />-->
+    </referenceContainer>
 </page>
