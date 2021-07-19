@@ -105,6 +105,23 @@ class Index implements HttpGetActionInterface
         }
     }
 
+    public function getBannerToWidget($groupCode, $viewedBanners) {
+        try {
+            $filter = $this->filter->setField('rand');
+            $this->searchCriteriaBuilder
+                ->addFilter('group_code', $groupCode)
+                ->addFilter('banner_id', $viewedBanners, 'nin');
+            $this->searchCriteriaBuilder->addFilters([$filter]);
+
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+            $banners = $this->testReporitory->getList($searchCriteria)->getItems();
+            return $banners[array_key_first($banners)]->getData();
+        } catch (\Exception $exception) {
+            throw new \Error($exception->getMessage());
+            // ...
+        }
+    }
+
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
      */
@@ -114,11 +131,14 @@ class Index implements HttpGetActionInterface
 
         if (isset($reqParams['getBanner'])) {
             $res = $this->_jsonFactory->create();
-            $bannersData = '';
+            $viewedBannersIds = '';
             if (isset($reqParams['viewedBanners'])) {
-                $bannersData = $reqParams['viewedBanners'];
+                $viewedBannersIds = $reqParams['viewedBanners'];
             }
-            return $res->setData($this->getBannersData($bannersData));
+            return $res->setData(
+                isset($reqParams['widgetGroupCode'])
+                    ? $this->getBannerToWidget($reqParams['widgetGroupCode'], $viewedBannersIds)
+                    : $this->getBannersData($viewedBannersIds));
         } else {
             throw new LocalizedException(__('Not request parameters'));
         }

@@ -55,11 +55,9 @@ define(
             localStorage.setItem('viewedBanners', JSON.stringify(persistedBanners));
         }
 
-        function getBannerToDisplay(banners) {
-            let rand = Math.floor(Math.random() * banners.length);
-            let currentBanner = banners[rand];
-            if (currentBanner.show_once === '1') setViewedBannersId(currentBanner.banner_id);
-            return banners[rand];
+        function getBannerToDisplay(banner) {
+            if (banner.show_once === '1') setViewedBannersId(banner.banner_id);
+            return banner;
         }
 
         function setModalData(data) {
@@ -72,9 +70,11 @@ define(
         }
 
         return function (options) {
-            let URL = options.baseUrl;
+            let URL = options.baseUrl + '?getBanner=true';
+            let groupCode = options.groupCode;
             let showedBanners = getViewedBannersId();
-            URL = URL + '?getBanner=true&viewedBanners=' + (showedBanners.length > 0 ? showedBanners.join() : 0);
+            showedBanners = showedBanners.length > 0 ? showedBanners.join() : 0;
+            URL += '?&viewedBanners=' + showedBanners + (groupCode ? '&widgetGroupCode=' + groupCode : '');
             $.ajax({
                 url: URL,
                 method: 'GET',

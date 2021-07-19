@@ -1,0 +1,18 @@
+<?php
+/** @var M2task\BannerManagement\Block\Widget\Banners $block */
+?>
+
+<h3><?= $block->getData('banner_group_code') ?></h3>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "banner":{
+            "baseUrl": "<?= $block->getUrl('getbanners/banner') ?>",
+            "groupCode": "<?= $block->getData('banner_group_code') ?>"
+        }
+    }
+}
+</script>
+
+
