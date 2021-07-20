@@ -10,7 +10,7 @@ use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory;
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
     /**
-     * @var \M2task\BannerManagement\Model\ResourceModel\Banner\Collection
+     * @var M2task\BannerManagement\Model\ResourceModel\Banner\Collection
      */
     protected $collection;
 
@@ -24,11 +24,12 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     protected $storeManager;
 
+
     /**
      * DataProvider constructor.
-     * @param $name
-     * @param $primaryFieldName
-     * @param $requestFieldName
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
      * @param CollectionFactory $bannerCollectionFactory
      * @param StoreManagerInterface $storeManager
      * @param array $meta

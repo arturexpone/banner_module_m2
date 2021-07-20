@@ -97,4 +97,13 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
         return $this->setData(self::SHOW_ONCE, $toggle);
     }
 
+    /**
+     * @param string $code
+     * @return Banner|mixed
+     */
+    public function setGroupCode(string $code)
+    {
+        return $this->setData(self::GROUP_CODE, $code);
+    }
+
 }

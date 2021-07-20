@@ -12,6 +12,7 @@ interface BannerInterface extends ExtensibleDataInterface
     const SHOW_ONCE = 'show_once';
     const SHOW_START_DATE = 'show_start_date';
     const SHOW_END_DATE = 'show_end_date';
+    const GROUP_CODE = 'group_code';
 
     /**
      * @return mixed
@@ -64,4 +65,10 @@ interface BannerInterface extends ExtensibleDataInterface
      * @return mixed
      */
     public function setShowOnce(bool $toggle);
+
+    /**
+     * @param string $code
+     * @return mixed
+     */
+    public function setGroupCode(string $code);
 }

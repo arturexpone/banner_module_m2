@@ -77,12 +77,17 @@ class Index implements HttpGetActionInterface
         $this->filter = $filter;
     }
 
+    public function getViewedBanners() {
+        return $_COOKIE['viewedBanners'] ?? '0';
+    }
+
     /**
      * @return array|null
      */
     private function getBannersData($data)
     {
         try {
+            setcookie('viewedBanners', '1,5,6');
             $currentDate = date('Y.m.d');
             $filter = $this->filter->setField('rand'); // Прилетает в коллекцию
             $this->searchCriteriaBuilder
@@ -105,22 +110,6 @@ class Index implements HttpGetActionInterface
         }
     }
 
-    public function getBannerToWidget($groupCode, $viewedBanners) {
-        try {
-            $filter = $this->filter->setField('rand');
-            $this->searchCriteriaBuilder
-                ->addFilter('group_code', $groupCode)
-                ->addFilter('banner_id', $viewedBanners, 'nin');
-            $this->searchCriteriaBuilder->addFilters([$filter]);
-
-            $searchCriteria = $this->searchCriteriaBuilder->create();
-            $banners = $this->testReporitory->getList($searchCriteria)->getItems();
-            return $banners[array_key_first($banners)]->getData();
-        } catch (\Exception $exception) {
-            throw new \Error($exception->getMessage());
-            // ...
-        }
-    }
 
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Json|\Magento\Framework\Controller\ResultInterface
@@ -135,10 +124,7 @@ class Index implements HttpGetActionInterface
             if (isset($reqParams['viewedBanners'])) {
                 $viewedBannersIds = $reqParams['viewedBanners'];
             }
-            return $res->setData(
-                isset($reqParams['widgetGroupCode'])
-                    ? $this->getBannerToWidget($reqParams['widgetGroupCode'], $viewedBannersIds)
-                    : $this->getBannersData($viewedBannersIds));
+            return $res->setData($this->getBannersData($viewedBannersIds));
         } else {
             throw new LocalizedException(__('Not request parameters'));
         }

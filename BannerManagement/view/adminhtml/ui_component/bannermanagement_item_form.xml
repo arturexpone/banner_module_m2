@@ -169,7 +169,7 @@
             </argument>
             <settings>
                 <validation>
-                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="required-entry" xsi:type="string">true</rule>
                 </validation>
                 <dataType>text</dataType>
                 <label translate="true">Group Code</label>

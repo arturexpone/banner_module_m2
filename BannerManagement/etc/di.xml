@@ -20,7 +20,6 @@
         <arguments>
             <argument name="customFilters" xsi:type="array">
                 <item name="rand" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\BannerCustomFilter</item>
-                <item name="custom" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\BannerCustomFilter</item>
             </argument>
         </arguments>
     </virtualType>

@@ -2,7 +2,7 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:widget:Magento_Widget:etc/widget.xsd">
     <widget class="M2task\BannerManagement\Block\Widget\Banners" id="banner">
         <label>Banners</label>
-        <description>Banners</description>
+        <description>Show banners with group code</description>
         <parameters>
             <parameter name="banner_group_code" sort_order="10" visible="true" xsi:type="text">
                 <label>Banner group code</label>

@@ -1,18 +1,36 @@
 <?php
-/** @var M2task\BannerManagement\Block\Widget\Banners $block */
+/**
+ * @var M2task\BannerManagement\Block\Widget\Banners $block
+ */
 ?>
 
-<h3><?= $block->getData('banner_group_code') ?></h3>
+<?php if ($block->getRandomBanner()) : ?>
+<div class="banner-wrapper">
+    <div class="banner-content">
+        <?= $block->getBannerData('banner_text_content') ?>
+    </div>
+    <div class="banner-modal">
+        <div class="banner-modal-popup">
+            <div class="banner-modal-popup_content">
+                <?= $block->getBannerData('banner_popup_text_content') ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/x-magento-init">
 {
     "*": {
-        "banner":{
-            "baseUrl": "<?= $block->getUrl('getbanners/banner') ?>",
-            "groupCode": "<?= $block->getData('banner_group_code') ?>"
-        }
+        "banner":{}
     }
 }
 </script>
+
+<?php else: ?>
+<div class="banner-error">
+    Banner group <?= $block->getData('banner_group_code') ?> not found
+</div>
+<?php endif; ?>
+
 
 

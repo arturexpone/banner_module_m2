@@ -57,7 +57,8 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 ->setBannerPopupContent($data['banner_popup_text_content'])
                 ->setShowStartDate($data['show_start_date'])
                 ->setShowEndDate($data['show_end_date'])
-                ->setShowOnce($data['show_once']);
+                ->setShowOnce($data['show_once'])
+                ->setGroupCode($data['group_code']);
 
             try {
                 $model->save();
