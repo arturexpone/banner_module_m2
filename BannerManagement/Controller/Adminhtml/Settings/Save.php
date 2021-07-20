@@ -52,13 +52,16 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 }
             }
 
+            $data = $this->filterFoodData($data);
+
             $model->setName($data['banner_name'])
                 ->setBannerContent($data['banner_text_content'])
                 ->setBannerPopupContent($data['banner_popup_text_content'])
                 ->setShowStartDate($data['show_start_date'])
                 ->setShowEndDate($data['show_end_date'])
                 ->setShowOnce($data['show_once'])
-                ->setGroupCode($data['group_code']);
+                ->setGroupCode($data['group_code'])
+                ->setDesktopImage($data['desktop_image']);
 
             try {
                 $model->save();
@@ -71,5 +74,16 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
             return $resultRedirect->setPath('*/*/edit', ['id' => $model->getId()]);
         }
         return $resultRedirect->setPath('*/*/');
+    }
+
+    public function filterFoodData($rawData)
+    {
+        $data = $rawData;
+        if (isset($data['image'][0]['name'])) {
+            $data['desktop_image'] = $data['image'][0]['name'];
+        } else {
+            $data['desktop_image'] = "";
+        }
+        return $data;
     }
 }

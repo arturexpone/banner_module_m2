@@ -39,6 +39,19 @@
         </arguments>
     </type>
 
+    <type name="M2task\BannerManagement\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">banners/tmp/banner</argument>
+            <argument name="basePath" xsi:type="string">banners/banner</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </type>
+
 
 </config>
 

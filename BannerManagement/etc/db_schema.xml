@@ -7,6 +7,7 @@
         <column xsi:type="varchar" name="banner_name" nullable="false" length="255" comment="Banner Name"/>
         <column xsi:type="date" name="show_start_date" nullable="true" comment="Show start date"/>
         <column xsi:type="date" name="show_end_date" nullable="true" comment="Show end date"/>
+        <column xsi:type="varchar" name="desktop_image" length="255" nullable="false" default="default.jpg"/>
         <column xsi:type="text" name="banner_text_content" nullable="true" comment="Banner text content"/>
         <column xsi:type="text" name="banner_popup_text_content" nullable="true" comment="Banner popup text content"/>
         <column xsi:type="boolean" name="show_once" nullable="false" default="0" comment="Show once"/>

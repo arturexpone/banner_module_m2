@@ -106,4 +106,9 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
         return $this->setData(self::GROUP_CODE, $code);
     }
 
+    public function setDesktopImage(string $name)
+    {
+        return $this->setData(self::DESKTOP_IMAGE, $name);
+    }
+
 }

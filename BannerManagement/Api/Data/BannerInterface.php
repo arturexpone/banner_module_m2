@@ -13,6 +13,7 @@ interface BannerInterface extends ExtensibleDataInterface
     const SHOW_START_DATE = 'show_start_date';
     const SHOW_END_DATE = 'show_end_date';
     const GROUP_CODE = 'group_code';
+    const DESKTOP_IMAGE = 'desktop_image';
 
     /**
      * @return mixed
@@ -71,4 +72,10 @@ interface BannerInterface extends ExtensibleDataInterface
      * @return mixed
      */
     public function setGroupCode(string $code);
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function setDesktopImage(string $name);
 }
