@@ -189,8 +189,7 @@ class ImageUploader
         if (!$uploader->checkMimeType($this->allowedMimeTypes)) {
             throw new \Magento\Framework\Exception\LocalizedException(__('File validation failed.'));
         }
-        $name2 = $uploader::getNewFileName('_desktop');
-        $result = $uploader->save($this->mediaDirectory->getAbsolutePath($baseTmpPath), 'myFileLol');
+        $result = $uploader->save($this->mediaDirectory->getAbsolutePath($baseTmpPath));
         unset($result['path']);
 
         if (!$result) {

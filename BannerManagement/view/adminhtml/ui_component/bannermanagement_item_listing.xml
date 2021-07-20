@@ -63,14 +63,26 @@
                 </item>
             </argument>
         </column>
-        <column name="image" class="M2task\BannerManagement\Ui\Component\Banner\Listing\Column\Image">
+        <column name="desktop_image" class="M2task\BannerManagement\Ui\Component\Banner\Listing\Column\Image">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>
                     <item name="sortable" xsi:type="boolean">false</item>
                     <item name="altField" xsi:type="string">name</item>
                     <item name="has_preview" xsi:type="string">1</item>
-                    <item name="label" xsi:type="string" translate="true">Banner Image</item>
+                    <item name="label" xsi:type="string" translate="true">Banner desktop image</item>
+                    <item name="sortOrder" xsi:type="number">25</item>
+                </item>
+            </argument>
+        </column>
+        <column name="mobile_image" class="M2task\BannerManagement\Ui\Component\Banner\Listing\Column\Image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="altField" xsi:type="string">name</item>
+                    <item name="has_preview" xsi:type="string">1</item>
+                    <item name="label" xsi:type="string" translate="true">Banner mobile image</item>
                     <item name="sortOrder" xsi:type="number">25</item>
                 </item>
             </argument>

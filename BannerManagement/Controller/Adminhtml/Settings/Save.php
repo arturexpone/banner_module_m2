@@ -6,12 +6,15 @@ namespace M2task\BannerManagement\Controller\Adminhtml\Settings;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 
+use M2task\BannerManagement\Model\ImageUploader;
+
 class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
 {
     /**
      * @var \M2task\BannerManagement\Model\BannerFactory
      */
     protected $bannerFactory;
+    private $imageUploader;
 
     /**
      * Save constructor.
@@ -24,10 +27,12 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
         \M2task\BannerManagement\Model\BannerFactory $bannerFactory,
         \Magento\Framework\View\Result\PageFactory $pageFactory,
         \Magento\Framework\Controller\Result\ForwardFactory $forwardFactory,
+        ImageUploader $imageUploader,
         Action\Context $context
     )
     {
         $this->bannerFactory = $bannerFactory;
+        $this->imageUploader = $imageUploader;
         parent::__construct($pageFactory, $forwardFactory, $context);
     }
 
@@ -61,7 +66,8 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 ->setShowEndDate($data['show_end_date'])
                 ->setShowOnce($data['show_once'])
                 ->setGroupCode($data['group_code'])
-                ->setDesktopImage($data['desktop_image']);
+                ->setDesktopImage($data['desktop_image'])
+                ->setMobileImage($data['mobile_image']);
 
             try {
                 $model->save();
@@ -76,14 +82,15 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
         return $resultRedirect->setPath('*/*/');
     }
 
-    public function filterFoodData($rawData)
+    public function filterFoodData($data)
     {
-        $data = $rawData;
-        if (isset($data['image'][0]['name'])) {
-            $data['desktop_image'] = $data['image'][0]['name'];
-        } else {
-            $data['desktop_image'] = "";
+        $devices = ['desktop', 'mobile'];
+        foreach ($devices as $device) {
+            if (isset($data[$device . '_image'][0]['name'])) {
+                $data[$device . '_image'] = $data[$device . '_image'][0]['name'];
+            }
         }
+
         return $data;
     }
 }

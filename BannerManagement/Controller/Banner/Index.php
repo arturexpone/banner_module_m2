@@ -13,6 +13,7 @@ use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Api\Filter;
 
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
+use M2task\BannerManagement\Model\Banner\DataProvider;
 
 
 class Index implements HttpGetActionInterface
@@ -55,6 +56,7 @@ class Index implements HttpGetActionInterface
      * @var Filter
      */
     private $filter;
+    private $dataProvider;
 
     public function __construct(
         Context $context,
@@ -64,7 +66,8 @@ class Index implements HttpGetActionInterface
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrder $sortOrder,
         SortOrderBuilder $sortOrderBuilder,
-        Filter $filter
+        Filter $filter,
+        DataProvider $dataProvider
     )
     {
         $this->_pageFactory = $pageFactory;
@@ -75,6 +78,7 @@ class Index implements HttpGetActionInterface
         $this->sortOrder = $sortOrder;
         $this->sortOrderBuilder = $sortOrderBuilder;
         $this->filter = $filter;
+        $this->dataProvider = $dataProvider;
     }
 
     public function getViewedBanners() {
@@ -117,6 +121,7 @@ class Index implements HttpGetActionInterface
     public function execute()
     {
         $reqParams = $this->context->getRequest()->getParams();
+        $data = $this->dataProvider->getData();
 
         if (isset($reqParams['getBanner'])) {
             $res = $this->_jsonFactory->create();

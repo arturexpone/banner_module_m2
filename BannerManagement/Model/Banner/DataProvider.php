@@ -58,9 +58,26 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
             return $this->loadedData;
         }
         $items = $this->collection->getItems();
+        $devices = ['desktop', 'mobile'];
         foreach ($items as $banner) {
+            foreach ($devices as $device) {
+                if (isset($banner[$device . '_image'])) {
+                    $image[0]['name'] = $banner[$device . '_image'];
+                    $image[0]['url'] = $this->getMediaUrl() . $banner[$device . '_image'];
+                    $banner[$device . '_image'] = $image;
+                }
+            }
+
             $this->loadedData[$banner->getId()] = $banner->getData();
         }
         return $this->loadedData;
     }
+
+    public function getMediaUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . 'banners/tmp/banner/';
+    }
+
 }

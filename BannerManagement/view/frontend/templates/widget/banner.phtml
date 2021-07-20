@@ -6,6 +6,8 @@
 
 <?php if ($block->getRandomBanner()) : ?>
 <div class="banner-wrapper">
+    <?= $block->getMediaUrl() . $block->getBannerData('mobile_image') ?>
+    <?= $block->getMediaUrl() . $block->getBannerData('desktop_image') ?>
     <div class="banner-content">
         <?= $block->getBannerData('banner_text_content') ?>
     </div>
@@ -21,7 +23,10 @@
 <script type="text/x-magento-init">
 {
     "*": {
-        "banner":{}
+        "banner":{
+            "desktop_image": "<?= $block->getBannerData('desktop_image') ?>",
+            "mobile_image": "<?= $block->getBannerData('mobile_image') ?>"
+        }
     }
 }
 </script>

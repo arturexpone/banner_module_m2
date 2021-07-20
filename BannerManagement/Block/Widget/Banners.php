@@ -4,13 +4,18 @@ namespace M2task\BannerManagement\Block\Widget;
 
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Widget\Block\BlockInterface;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
 
 class Banners extends Template implements BlockInterface
 {
+    const COOKIE_NAME = 'viewed_banners';
+    const GROUP_CODE = 'banner_group_code';
     /**
      * @var string
      */
@@ -27,34 +32,46 @@ class Banners extends Template implements BlockInterface
      * @var Filter
      */
     private $filter;
-    /**
-     * @var mixed|string
-     */
-    private $_viewedBanners;
 
+    /**
+     * @var
+     */
     private $randomBanner;
+
+    /**
+     * @var CookieManagerInterface
+     */
+    private $cookieManager;
+    private $storeManager;
 
     public function __construct(
         Template\Context $context,
         array $data = [],
         BannerRepositoryInterface $bannerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        CookieManagerInterface $cookieManager,
+        StoreManagerInterface $storeManager,
         Filter $filter
     )
     {
         $this->bannerRepository = $bannerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filter = $filter;
-        $this->_viewedBanners = $_COOKIE['viewedBanners'] ?? '0';
+        $this->cookieManager = $cookieManager;
+        $this->storeManager = $storeManager;
 
         parent::__construct($context, $data);
+    }
+
+    public function getCookie() {
+        return $this->cookieManager->getCookie(self::COOKIE_NAME);
     }
 
     /**
      * @return array|mixed|string
      */
     public function getGroupCode() {
-        return $this->getData('banner_group_code') ?? '';
+        return $this->getData(self::GROUP_CODE) ?? '';
     }
 
     /**
@@ -75,13 +92,26 @@ class Banners extends Template implements BlockInterface
     }
 
     /**
+     * @return string
+     */
+    public function getMediaUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . 'banners/tmp/banner/';
+    }
+
+    /**
      * @param $banner
      * @return $this
      */
     public function setShowOnceBannerToCoockie($banner) {
         if ($banner['show_once'] === '1') {
-            setcookie('viewedBanners', $this->_viewedBanners . "," . $banner['banner_id']);
-        };
+            $this->cookieManager->setPublicCookie(
+                self::COOKIE_NAME,
+                $this->getCookie() . "," . $banner['banner_id']
+            );
+        }
         return $this;
     }
 
@@ -90,35 +120,26 @@ class Banners extends Template implements BlockInterface
      */
     public function setRandomBanner() {
         if (!isset($this->randomBanner)) {
-            try {
-                $currentDate = date('Y.m.d');
-                $bannerGroup = $this->getGroupCode();
-                $filter = $this->filter->setField('rand');
+            $currentDate = date('Y.m.d');
+            $bannerGroup = $this->getGroupCode();
+            $filter = $this->filter->setField('rand');
 
-                $this->searchCriteriaBuilder
-                    ->addFilter('group_code', $bannerGroup)
-                    ->addFilter('banner_id', $this->_viewedBanners, 'nin')
-                    ->addFilter('show_start_date', $currentDate, 'lteq')
-                    ->addFilter('show_end_date', $currentDate, 'gteq');
-                $this->searchCriteriaBuilder->addFilters([$filter]);
+            $this->searchCriteriaBuilder
+                ->addFilter('group_code', $bannerGroup)
+                ->addFilter('banner_id', $this->getCookie(), 'nin')
+                ->addFilter('show_start_date', $currentDate, 'lteq')
+                ->addFilter('show_end_date', $currentDate, 'gteq');
+            $this->searchCriteriaBuilder->addFilters([$filter]);
 
-                $searchCriteria = $this->searchCriteriaBuilder->create();
-                $banners = $this->bannerRepository->getList($searchCriteria)->getItems();
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+            $banners = $this->bannerRepository->getList($searchCriteria)->getItems();
 
-                if (count($banners) > 0) {
-                    $randomBanner = $banners[array_key_first($banners)]->getData();
-                    $this->setShowOnceBannerToCoockie($randomBanner);
-                    $this->randomBanner = $randomBanner;
-                }
-
-                return $this;
-            } catch (\Exception $exception) {
-                throw new \Error($exception->getMessage());
-                // ...
+            if (count($banners) > 0) {
+                $randomBanner = $banners[array_key_first($banners)]->getData();
+                $this->setShowOnceBannerToCoockie($randomBanner);
+                $this->randomBanner = $randomBanner;
             }
         }
         return $this;
     }
-
-
 }

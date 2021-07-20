@@ -14,6 +14,7 @@ interface BannerInterface extends ExtensibleDataInterface
     const SHOW_END_DATE = 'show_end_date';
     const GROUP_CODE = 'group_code';
     const DESKTOP_IMAGE = 'desktop_image';
+    const MOBILE_IMAGE = 'mobile_image';
 
     /**
      * @return mixed
@@ -78,4 +79,10 @@ interface BannerInterface extends ExtensibleDataInterface
      * @return mixed
      */
     public function setDesktopImage(string $name);
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function setMobileImage(string $name);
 }
