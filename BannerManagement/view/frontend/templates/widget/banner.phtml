@@ -4,15 +4,18 @@
  */
 ?>
 
-<?php if ($block->getRandomBanner()) : ?>
 <div class="banner-wrapper">
+    <picture class="banner-background">
+        <source media="(min-width: 768px)" srcset=""/>
+        <img src="" alt="Banner" />
+    </picture>
     <div class="banner-content">
 
     </div>
     <div class="banner-modal">
         <div class="banner-modal-popup">
             <div class="banner-modal-popup_content">
-                <?= $block->getBannerData('banner_popup_text_content') ?>
+
             </div>
         </div>
     </div>
@@ -22,18 +25,13 @@
 {
     "*": {
         "banner":{
-            "desktop_image": "<?= $block->getMediaUrl() . $block->getBannerData('desktop_image') ?>",
-            "mobile_image": "<?= $block->getMediaUrl() . $block->getBannerData('mobile_image') ?>"
+            "groupCode":"<?= $block->getGroupCode() ?>",
+            "baseUrl":"<?= $block->getUrl('getbanners/banner') ?>"
         }
     }
 }
 </script>
 
-<?php else: ?>
-<div class="banner-error">
-    Banner group <?= $block->getData('banner_group_code') ?> not found
-</div>
-<?php endif; ?>
 
 
 

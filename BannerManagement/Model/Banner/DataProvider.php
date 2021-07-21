@@ -2,6 +2,7 @@
 
 namespace M2task\BannerManagement\Model\Banner;
 
+use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory;
@@ -27,22 +28,23 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 
     /**
      * DataProvider constructor.
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
+     * @param string|null $name
+     * @param string|null $primaryFieldName
+     * @param string|null $requestFieldName
      * @param CollectionFactory $bannerCollectionFactory
      * @param StoreManagerInterface $storeManager
      * @param array $meta
      * @param array $data
      */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
+        $name = null,
+        $primaryFieldName = null,
+        $requestFieldName = null,
         CollectionFactory $bannerCollectionFactory,
         StoreManagerInterface $storeManager,
         array $meta = [],
-        array $data = []
+        array $data = [],
+        CookieManagerInterface $cookieManager
     ) {
         $this->collection = $bannerCollectionFactory->create();
         $this->storeManager = $storeManager;

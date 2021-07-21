@@ -28,35 +28,57 @@ define(
             });
         }
 
-        function getDeviceType () {
-            const ua = navigator.userAgent;
-            if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-                return "tablet";
-            }
-            if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-                return "mobile";
-            }
-            return "desktop"
+        function setModalData(banner) {
+            let {
+                banner_popup_text_content: popupContent,
+                banner_text_content: bannerContent,
+                desktop_image: dImg,
+                mobile_image: mImg,
+                banner_name
+            } = banner;
+            $('.banner-modal-popup_content').html(popupContent);
+            $('.banner-content').html(bannerContent);
+            $('.banner-background source').attr('srcset', dImg);
+            $('.banner-background img').attr('src', mImg);
+            $('.banner-wrapper').addClass('initialize');
         }
 
-        function setBackImageInBanner(mobile, desktop) {
-            const device = getDeviceType();
-            let currentImage;
-
-            device === 'mobile' || device === 'tablet'
-                ? currentImage = mobile
-                : currentImage = desktop;
-
-            $(".banner-content")
-                .css('background', 'url(' + currentImage + ')')
-                .parent()
-                .addClass('initialize');
+        function alertErrorInPage(error) {
+            alert(error);
         }
 
-        return function (options) {
-            const {mobile_image, desktop_image} = options;
-            setBackImageInBanner(mobile_image, desktop_image);
-            initializeModalComponent();
+        function setBannerIdToLS(id) {
+            let viewedBanners = getViewedBannersInLS();
+            localStorage.setItem('viewed_banners', viewedBanners ? viewedBanners + ',' + id : id);
+        }
+
+        function getViewedBannersInLS() {
+            return localStorage.getItem('viewed_banners');
+        }
+
+        return function ({groupCode, baseUrl}) {
+            let compiledUrl = baseUrl
+                + '?group_code=' + groupCode
+                + '&viewed_banners=' + (getViewedBannersInLS() || '0');
+            $.ajax({
+                url: compiledUrl,
+                method: 'GET',
+                cache: false,
+                dataType: 'JSON',
+                success: function (banner) {
+                    if (banner.show_once === '1') {
+                        setBannerIdToLS(banner.banner_id);
+                    }
+                    initializeModalComponent();
+                    setModalData(banner);
+                },
+                error: function (e) {
+                    const {responseJSON} = e;
+                    if (responseJSON && responseJSON.error_message === 'Banner not found') {
+                        alertErrorInPage(responseJSON.error_message);
+                    }
+                }
+            });
         }
     }
 );
