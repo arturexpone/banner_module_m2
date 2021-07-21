@@ -8,7 +8,7 @@ define(
         modal
     ) {
         function initializeModalComponent() {
-            var options = {
+            const options = {
                 type: 'popup',
                 responsive: true,
                 innerScroll: true,
@@ -28,7 +28,34 @@ define(
             });
         }
 
-        return function () {
+        function getDeviceType () {
+            const ua = navigator.userAgent;
+            if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+                return "tablet";
+            }
+            if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+                return "mobile";
+            }
+            return "desktop"
+        }
+
+        function setBackImageInBanner(mobile, desktop) {
+            const device = getDeviceType();
+            let currentImage;
+
+            device === 'mobile' || device === 'tablet'
+                ? currentImage = mobile
+                : currentImage = desktop;
+
+            $(".banner-content")
+                .css('background', 'url(' + currentImage + ')')
+                .parent()
+                .addClass('initialize');
+        }
+
+        return function (options) {
+            const {mobile_image, desktop_image} = options;
+            setBackImageInBanner(mobile_image, desktop_image);
             initializeModalComponent();
         }
     }
