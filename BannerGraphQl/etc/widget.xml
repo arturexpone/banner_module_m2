@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:widget:Magento_Widget:etc/widget.xsd">
+    <widget class="M2task\BannerGraphQl\Block\Widget\Banners" id="graphql_banner">
+        <label>Banners (graphql)</label>
+        <description>Show banners with group code</description>
+        <parameters>
+            <parameter name="banner_group_code" sort_order="10" visible="true" xsi:type="text">
+                <label>Banner group code</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

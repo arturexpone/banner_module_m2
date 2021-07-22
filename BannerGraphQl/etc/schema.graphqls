@@ -1,0 +1,19 @@
+type Query
+{
+    GetRandomBanner (
+        viewed_banners: String @doc(description: "Viewed banners in LS")
+        group_code: String @doc(description: "Banner group code")
+    ): RandomBanner @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetRandomBanner") @doc(description:"Banner Module")
+}
+
+type RandomBanner
+{
+    banner_id: String
+    banner_text_content: String
+    banner_popup_text_content: String
+    desktop_image: String
+    mobile_image: String
+    show_once: String
+}
+
+

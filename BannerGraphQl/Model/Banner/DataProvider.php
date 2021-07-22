@@ -1,0 +1,85 @@
+<?php
+
+namespace M2task\BannerGraphQl\Model\Banner;
+
+use Magento\Framework\Stdlib\CookieManagerInterface;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use M2task\BannerGraphQl\Model\ResourceModel\Banner\CollectionFactory;
+
+
+class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+{
+    /**
+     * @var M2task\BannerGraphQl\Model\ResourceModel\Banner\Collection
+     */
+    protected $collection;
+
+    /**
+     * @var
+     */
+    protected $loadedData;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+
+    /**
+     * DataProvider constructor.
+     * @param string|null $name
+     * @param string|null $primaryFieldName
+     * @param string|null $requestFieldName
+     * @param CollectionFactory $bannerCollectionFactory
+     * @param StoreManagerInterface $storeManager
+     * @param array $meta
+     * @param array $data
+     */
+    public function __construct(
+        $name = null,
+        $primaryFieldName = null,
+        $requestFieldName = null,
+        CollectionFactory $bannerCollectionFactory,
+        StoreManagerInterface $storeManager,
+        array $meta = [],
+        array $data = [],
+        CookieManagerInterface $cookieManager
+    ) {
+        $this->collection = $bannerCollectionFactory->create();
+        $this->storeManager = $storeManager;
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        if (isset($this->loadedData)) {
+            return $this->loadedData;
+        }
+        $items = $this->collection->getItems();
+        $devices = ['desktop', 'mobile'];
+        foreach ($items as $banner) {
+            foreach ($devices as $device) {
+                if (isset($banner[$device . '_image'])) {
+                    $image[0]['name'] = $banner[$device . '_image'];
+                    $image[0]['url'] = $this->getMediaUrl() . $banner[$device . '_image'];
+                    $banner[$device . '_image'] = $image;
+                }
+            }
+
+            $this->loadedData[$banner->getId()] = $banner->getData();
+        }
+        return $this->loadedData;
+    }
+
+    public function getMediaUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . 'banners/tmp/banner/';
+    }
+
+}
