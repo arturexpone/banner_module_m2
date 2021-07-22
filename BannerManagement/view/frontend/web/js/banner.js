@@ -8,7 +8,7 @@ define(
         modal
     ) {
         function initializeModalComponent() {
-            const options = {
+            var options = {
                 type: 'popup',
                 responsive: true,
                 innerScroll: true,
@@ -23,23 +23,16 @@ define(
             };
 
             modal(options, $('.banner-modal'));
-            $(".banner-wrapper").click(function () {
+            $('.banner-wrapper').click(function () {
                 $('.banner-modal').modal('openModal');
             });
         }
 
         function setModalData(banner) {
-            let {
-                banner_popup_text_content: popupContent,
-                banner_text_content: bannerContent,
-                desktop_image: dImg,
-                mobile_image: mImg,
-                banner_name
-            } = banner;
-            $('.banner-modal-popup_content').html(popupContent);
-            $('.banner-content').html(bannerContent);
-            $('.banner-background source').attr('srcset', dImg);
-            $('.banner-background img').attr('src', mImg);
+            $('.banner-modal-popup_content').html(banner.banner_popup_text_content);
+            $('.banner-content').html(banner.banner_text_content);
+            $('.banner-background source').attr('srcset', banner.desktop_image);
+            $('.banner-background img').attr('src', banner.mobile_image);
             $('.banner-wrapper').addClass('initialize');
         }
 
@@ -48,8 +41,16 @@ define(
         }
 
         function setBannerIdToLS(id) {
-            let viewedBanners = getViewedBannersInLS();
-            localStorage.setItem('viewed_banners', viewedBanners ? viewedBanners + ',' + id : id);
+            var viewedBanners = getViewedBannersInLS();
+            var summaryBanners;
+
+            if (viewedBanners) {
+                summaryBanners = viewedBanners + ',' + id;
+            } else {
+                summaryBanners = id;
+            }
+
+            localStorage.setItem('viewed_banners', summaryBanners);
         }
 
         function getViewedBannersInLS() {
@@ -57,7 +58,7 @@ define(
         }
 
         return function ({groupCode, baseUrl}) {
-            let compiledUrl = baseUrl
+            var compiledUrl = baseUrl
                 + '?group_code=' + groupCode
                 + '&viewed_banners=' + (getViewedBannersInLS() || '0');
             $.ajax({
@@ -73,9 +74,8 @@ define(
                     setModalData(banner);
                 },
                 error: function (e) {
-                    const {responseJSON} = e;
-                    if (responseJSON && responseJSON.error_message === 'Banner not found') {
-                        alertErrorInPage(responseJSON.error_message);
+                    if (e.responseJSON && e.responseJSON.error_message === 'Banner not found') {
+                        alertErrorInPage(e.responseJSON.error_message);
                     }
                 }
             });
