@@ -8,10 +8,10 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\Serialize\Serializer\Json;
 
-use M2task\BannerManagement\Api\GetRandomBannerInterface;
+use M2task\BannerManagement\Api\BannerRestInterface;
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
 
-class GetRandomBanner implements GetRandomBannerInterface
+class Banner implements BannerRestInterface
 {
     /**
      * @var BannerRepositoryInterface
@@ -56,18 +56,21 @@ class GetRandomBanner implements GetRandomBannerInterface
         $this->jsonSerializer = $jsonSerializer;
     }
 
+
     /**
-     * @param $searchCriteriaParams
-     * @return mixed
+     * @param string $banners_group
+     * @param string $viewed_banners
+     * @return string
      * @throws LocalizedException
      */
-    public function getRandomBanner($searchCriteriaParams)
+    public function getRandomBanner($banners_group, $viewed_banners = '0')
     {
-
-        foreach ($searchCriteriaParams as $filterParams) {
-            $this->searchCriteriaBuilder
-                ->addFilter($filterParams['field'], $filterParams['value'], $filterParams['conditionType']);
-        }
+        $currentDate = $this->date->date('Y.m.d');
+        $this->searchCriteriaBuilder
+            ->addFilter('group_code', $banners_group)
+            ->addFilter('banner_id', $viewed_banners, 'nin')
+            ->addFilter('show_start_date', $currentDate, 'lteq')
+            ->addFilter('show_end_date', $currentDate, 'gteq');
 
         $filter = $this->filter->setField('rand');
         $this->searchCriteriaBuilder->addFilters([$filter]);
@@ -77,47 +80,10 @@ class GetRandomBanner implements GetRandomBannerInterface
         $banner = reset($banners);
 
         if ($banner) {
-            return $banner->getData();
+            $banner = $banner->getData();
+            return $this->jsonSerializer->serialize($banner);
         } else {
             throw new LocalizedException(__('Banner not found'));
         }
     }
-
-    /**
-     * @param string $banners_group
-     * @param string $viewed_banners
-     * @return string
-     * @throws LocalizedException
-     */
-    public function exec($banners_group, $viewed_banners = '0')
-    {
-        $currentDate = $this->date->date('Y.m.d');
-        $searchCriteriaParams = [
-            [
-                'field' => 'group_code',
-                'value' => $banners_group,
-                'conditionType' => 'eq'
-            ],
-            [
-                'field' => 'banner_id',
-                'value' => $viewed_banners,
-                'conditionType' => 'nin'
-            ],
-            [
-                'field' => 'show_start_date',
-                'value' => $currentDate,
-                'conditionType' => 'lteq'
-            ],
-            [
-                'field' => 'show_end_date',
-                'value' => $currentDate,
-                'conditionType' => 'gteq'
-            ]
-        ];
-
-        $randomBanner = $this->getRandomBanner($searchCriteriaParams);
-
-        return $this->jsonSerializer->serialize($randomBanner);
-    }
-
 }

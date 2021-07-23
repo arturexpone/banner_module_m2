@@ -51,10 +51,7 @@
             </argument>
         </arguments>
     </type>
-
-    <preference for="M2task\BannerManagement\Api\GetRandomBannerInterface" type="M2task\BannerManagement\Model\Rest\GetRandomBanner" />
-
-
+    <preference for="M2task\BannerManagement\Api\BannerRestInterface" type="M2task\BannerManagement\Model\Rest\Banner" />
 </config>
 
 

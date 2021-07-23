@@ -7,15 +7,14 @@ namespace M2task\BannerManagement\Api;
  * @api
  */
 
-interface GetRandomBannerInterface
+interface BannerRestInterface
 {
     /**
-     * Returns greeting message to user
      *
      * @api
      * @param string $viewed_banners
      * @param string $banners_group
      * @return string
      */
-    public function exec($banners_group, $viewed_banners);
+    public function getRandomBanner($banners_group, $viewed_banners);
 }
