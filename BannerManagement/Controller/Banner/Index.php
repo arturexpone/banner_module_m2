@@ -6,9 +6,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Api\Filter;
-use Magento\Store\Model\StoreManagerInterface;
 
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
 
@@ -38,11 +36,6 @@ class Index implements HttpGetActionInterface
      */
     private $filter;
     /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var array
      */
     private $randomBanner;
@@ -52,8 +45,7 @@ class Index implements HttpGetActionInterface
         JsonFactory $jsonFactory,
         BannerRepositoryInterface $bannerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Filter $filter,
-        StoreManagerInterface $storeManager
+        Filter $filter
     )
     {
         $this->_jsonFactory = $jsonFactory;
@@ -61,7 +53,6 @@ class Index implements HttpGetActionInterface
         $this->bannerRepository = $bannerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filter = $filter;
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -71,16 +62,6 @@ class Index implements HttpGetActionInterface
     public function getBannerData($data) {
         if (!isset($this->randomBanner)) return null;
         return $this->randomBanner[$data] ?? '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaUrl()
-    {
-        return $this->storeManager->getStore()->getBaseUrl(
-                UrlInterface::URL_TYPE_MEDIA
-            ) . 'banners/tmp/banner/';
     }
 
     /**
@@ -127,12 +108,6 @@ class Index implements HttpGetActionInterface
             $res->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_NOT_FOUND);
             $res->setData(['error_message' => 'Banner not found']);
             return $res;
-        }
-
-        foreach ($this->randomBanner as $key => &$val) {
-            if ($key === 'mobile_image' || $key === 'desktop_image') {
-                $val = $this->getMediaUrl() . $val;
-            }
         }
 
         return $res->setData($this->randomBanner);

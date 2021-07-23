@@ -36,10 +36,6 @@ define(
             $('.banner-wrapper').addClass('initialize');
         }
 
-        function alertErrorInPage(error) {
-            alert(error);
-        }
-
         function setBannerIdToLS(id) {
             var viewedBanners = getViewedBannersInLS();
             var summaryBanners;
@@ -57,47 +53,28 @@ define(
             return localStorage.getItem('viewed_banners');
         }
 
-        return function ({groupCode, baseUrl}) {
-            var compiledUrl = baseUrl
-                + '?group_code=' + groupCode
-                + '&viewed_banners=' + (getViewedBannersInLS() || '0');
+        return function (options) {
+            var query = "?query={GetRandomBanner(viewed_banners: \""
+                + (getViewedBannersInLS() || '0') + "\", group_code:" + "\""
+                + options.groupCode + "\")"
+                + "{banner_id banner_text_content banner_popup_text_content desktop_image mobile_image show_once}}";
+
             $.ajax({
-                url: compiledUrl,
-                method: 'GET',
-                cache: false,
-                dataType: 'JSON',
-                success: function (banner) {
+                method: 'get',
+                url: options.baseUrl + query,
+                contentType: 'application/json',
+                success: function(data){
+                    var banner = data.data.GetRandomBanner;
                     if (banner.show_once === '1') {
                         setBannerIdToLS(banner.banner_id);
                     }
-                    console.log(banner)
                     initializeModalComponent();
                     setModalData(banner);
                 },
-                error: function (e) {
-                    if (e.responseJSON && e.responseJSON.error_message === 'Banner not found') {
-                        alertErrorInPage(e.responseJSON.error_message);
-                    }
+                error: function(e){
+                    // ...
                 }
-            });
-            // var viewedBanners = '23,44';
-            // var groupCode = '43';
-            //
-            // var query = "?query={CustomGraphql(viewed_banners: \""
-            //     + viewedBanners + "\", group_code:" + "\""
-            //     + groupCode + "\") {banner_id banner_text_content}}";
-            //
-            // $.ajax({
-            //     method: 'get',
-            //     url: "http://magento2.local/graphql" + query,
-            //     contentType: 'application/json',
-            //     success: function(data){
-            //         console.log(data);
-            //     },
-            //     error: function(data){
-            //         console.log(data);
-            //     }
-            // })
+            })
         }
     }
 );

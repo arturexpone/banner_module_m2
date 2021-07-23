@@ -5,8 +5,8 @@ namespace M2task\BannerManagement\Model\Banner;
 use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory;
 
+use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory;
 
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {

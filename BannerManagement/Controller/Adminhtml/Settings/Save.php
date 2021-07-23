@@ -1,10 +1,11 @@
 <?php
 
-
 namespace M2task\BannerManagement\Controller\Adminhtml\Settings;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 use M2task\BannerManagement\Model\ImageUploader;
 
@@ -14,7 +15,14 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
      * @var \M2task\BannerManagement\Model\BannerFactory
      */
     protected $bannerFactory;
+    /**
+     * @var ImageUploader
+     */
     private $imageUploader;
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
 
     /**
      * Save constructor.
@@ -28,12 +36,14 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
         \Magento\Framework\View\Result\PageFactory $pageFactory,
         \Magento\Framework\Controller\Result\ForwardFactory $forwardFactory,
         ImageUploader $imageUploader,
+        StoreManagerInterface $storeManager,
         Action\Context $context
     )
     {
         $this->bannerFactory = $bannerFactory;
         $this->imageUploader = $imageUploader;
         parent::__construct($pageFactory, $forwardFactory, $context);
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -87,10 +97,19 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
         $devices = ['desktop', 'mobile'];
         foreach ($devices as $device) {
             if (isset($data[$device . '_image'][0]['name'])) {
-                $data[$device . '_image'] = $data[$device . '_image'][0]['name'];
+                $data[$device . '_image'] = $this->getMediaUrl() . $data[$device . '_image'][0]['name'];
             }
         }
-
         return $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaUrl()
+    {
+        return $this->storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . 'banners/tmp/banner/';
     }
 }

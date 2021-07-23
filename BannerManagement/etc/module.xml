@@ -3,6 +3,7 @@
     <module name="M2task_BannerManagement">
         <sequence>
             <module name="Magento_Widget" />
+            <module name="Magento_Webapi" />
         </sequence>
     </module>
 </config>

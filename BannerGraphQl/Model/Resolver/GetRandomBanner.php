@@ -9,25 +9,12 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
-use Magento\Framework\UrlInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Stdlib\DateTime\DateTime;
 
-use M2task\BannerGraphql\Api\BannerRepositoryInterface;
+use M2task\BannerManagement\Api\BannerRepositoryInterface;
 
 class GetRandomBanner implements ResolverInterface
 {
-    /**
-     * @var string
-     */
-    private $group_code;
-    /**
-     * @var string
-     */
-    private $viewed_banners;
-    /**
-     * @var array
-     */
-    private $randomBanner;
     /**
      * @var BannerRepositoryInterface
      */
@@ -41,71 +28,49 @@ class GetRandomBanner implements ResolverInterface
      */
     private $filter;
     /**
-     * @var StoreManagerInterface
+     * @var DateTime
      */
-    private $storeManager;
+    private $date;
 
     public function __construct(
         BannerRepositoryInterface $bannerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Filter $filter,
-        StoreManagerInterface $storeManager
+        DateTime $date
     ) {
         $this->bannerRepository = $bannerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filter = $filter;
-        $this->storeManager = $storeManager;
+        $this->date = $date;
     }
 
+    public function getRandomBanner($searchCriteriaParams) {
 
-    public function getMediaUrl()
-    {
-        return $this->storeManager->getStore()->getBaseUrl(
-                UrlInterface::URL_TYPE_MEDIA
-            ) . 'banners/tmp/banner/';
-    }
+            foreach ($searchCriteriaParams as $filterParams) {
+                $this->searchCriteriaBuilder
+                    ->addFilter($filterParams['field'], $filterParams['value'], $filterParams['conditionType']);
+            }
 
-    public function setRandomBanner() {
-        if (!isset($this->randomBanner)) {
-            $currentDate = date('Y.m.d');
             $filter = $this->filter->setField('rand');
-
-            $this->searchCriteriaBuilder
-                ->addFilter('group_code', $this->group_code)
-                ->addFilter('banner_id', $this->viewed_banners, 'nin')
-                ->addFilter('show_start_date', $currentDate, 'lteq')
-                ->addFilter('show_end_date', $currentDate, 'gteq');
-
             $this->searchCriteriaBuilder->addFilters([$filter]);
 
             $searchCriteria = $this->searchCriteriaBuilder->create();
             $banners = $this->bannerRepository->getList($searchCriteria)->getItems();
+            $banner = reset($banners);
 
-            if (count($banners) > 0) {
-                $randomBanner = $banners[array_key_first($banners)]->getData();
-                $this->randomBanner = $randomBanner;
+            if ($banner) {
+                return $banner->getData();
+            } else {
+                throw new GraphQlNoSuchEntityException(__('Banner not found'));
             }
-        }
-        return $this;
     }
 
-    public function setMediaUrlToBanner() {
-        foreach ($this->randomBanner as $key => &$val) {
-            if ($key === 'mobile_image' || $key === 'desktop_image') {
-                $val = $this->getMediaUrl() . $val;
-            }
-        }
-    }
-
-    public function checkReqParams(&$args) {
-        $requiredParams = ['group_code', 'viewed_banners'];
-
-        foreach ($requiredParams as $value) {
-            if (!isset($args[$value]) || empty($args[$value]))
+    public function checkReqParams($checkingParams, $args) {
+        foreach ($checkingParams as $param) {
+            if (!isset($args[$param]) || empty($args[$param]))
             {
                 throw new GraphQlInputException(__('Invalid parameter list.'));
             }
-            $this->$value = $args[$value];
         }
 
         return $this;
@@ -118,15 +83,32 @@ class GetRandomBanner implements ResolverInterface
         array $value = null,
         array $args = null)
     {
+        $this->checkReqParams(['group_code'], $args);
 
-        $this->checkReqParams($args)->setRandomBanner();
+        $currentDate = $this->date->date('Y.m.d');
+        $searchCriteriaParams = [
+            [
+                'field' => 'group_code',
+                'value' => $args['group_code'],
+                'conditionType' => 'eq'
+            ],
+            [
+                'field' => 'banner_id',
+                'value' => $args['viewed_banners'],
+                'conditionType' => 'nin'
+            ],
+            [
+                'field' => 'show_start_date',
+                'value' => $currentDate,
+                'conditionType' => 'lteq'
+            ],
+            [
+                'field' => 'show_end_date',
+                'value' => $currentDate,
+                'conditionType' => 'gteq'
+            ]
+        ];
 
-        if (!$this->randomBanner) {
-            throw new GraphQlNoSuchEntityException(__('Banner not found'));
-        }
-
-        $this->setMediaUrlToBanner();
-
-        return $this->randomBanner;
+        return $this->getRandomBanner($searchCriteriaParams);
     }
 }

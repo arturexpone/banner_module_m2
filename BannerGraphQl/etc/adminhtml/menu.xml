@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="M2task_BannerGraphQl::bannergraphql" title="Banner GraphQl" action="bannergraphql/settings" translate="title" module="M2task_BannerGraphQl" sortOrder="50" dependsOnModule="M2task_BannerGraphQl" resource="M2task_BannerGraphQl::bannergraphql"/>
-    </menu>
-</config>
