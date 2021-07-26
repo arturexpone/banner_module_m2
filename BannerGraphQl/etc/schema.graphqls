@@ -11,9 +11,11 @@ type RandomBanner
     banner_id: String
     banner_text_content: String
     banner_popup_text_content: String
-    desktop_image: String
-    mobile_image: String
+    desktop_image : String @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetBannerImage") @doc(description:"Banner desktop image")
+    mobile_image: String @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetBannerImage") @doc(description:"Banner mobile image")
     show_once: String
 }
+
+
 
 

@@ -16,15 +16,15 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
     }
 
     /**
-     * @return mixed|null
+     * @return string
      */
-    public function getBannerByName()
+    public function getBannerName()
     {
         return parent::getData(self::NAME);
     }
 
     /**
-     * @return mixed|null
+     * @return string
      */
     public function getId()
     {
@@ -32,16 +32,39 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
     }
 
     /**
-     * @return mixed|null
+     * @return string
      */
     public function getName()
     {
         return parent::getData(self::NAME);
     }
 
+
     /**
-     * @param mixed $id
-     * @return Banner|mixed
+     * @return string
+     */
+    public function getShowEndDate() {
+        return parent::getData(self::SHOW_END_DATE);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getShowStartDate() {
+        return parent::getData(self::SHOW_START_DATE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupCode() {
+        return parent::getData(self::GROUP_CODE);
+    }
+
+    /**
+     * @param string $id
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setId($id)
     {
@@ -50,16 +73,16 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $name
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
-    public function setName(string $name)
+    public function setBannerName(string $name)
     {
         return $this->setData(self::NAME, $name);
     }
 
     /**
      * @param string $text
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setBannerContent(string $text) {
         return $this->setData(self::BANNER_CONTENT, $text);
@@ -67,7 +90,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $text
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setBannerPopupContent(string $text) {
         return $this->setData(self::BANNER_POPUP_CONTENT, $text);
@@ -75,7 +98,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string|null $startDate
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowStartDate(string $startDate = null) {
         return $this->setData(self::SHOW_START_DATE, $startDate);
@@ -83,7 +106,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string|null $endDate
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowEndDate(string $endDate = null) {
         return $this->setData(self::SHOW_END_DATE, $endDate);
@@ -91,7 +114,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param bool|null $toggle
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowOnce(bool $toggle = null) {
         return $this->setData(self::SHOW_ONCE, $toggle);
@@ -99,7 +122,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $code
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setGroupCode(string $code)
     {
@@ -108,7 +131,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $name
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setDesktopImage(string $name)
     {
@@ -117,7 +140,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $name
-     * @return Banner|mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setMobileImage(string $name)
     {

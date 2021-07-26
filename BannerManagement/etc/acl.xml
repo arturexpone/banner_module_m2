@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+                <resource id="Magento_Backend::admin" title="Custom Menu" sortOrder="10" >
+                    <resource id="M2task_BannerManagement::save" title="Save banner" sortOrder="50" />
+                    <resource id="M2task_BannerManagement::delete" title="Delete banner" sortOrder="100" />
+                </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,7 +1,9 @@
 <?php
 
 namespace M2task\BannerManagement\Api\Data;
+use M2task\BannerManagement\Model\Banner;
 use Magento\Framework\Api\ExtensibleDataInterface;
+
 
 interface BannerInterface extends ExtensibleDataInterface
 {
@@ -17,72 +19,88 @@ interface BannerInterface extends ExtensibleDataInterface
     const MOBILE_IMAGE = 'mobile_image';
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getId();
 
+
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBannerByName();
+    public function getBannerName();
+
+    /**
+     * @return string
+     */
+    public function getShowStartDate();
+
+    /**
+     * @return string
+     */
+    public function getShowEndDate();
+
+    /**
+     * @return string
+     */
+    public function getGroupCode();
 
     /**
      * @param $id
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setId($id);
 
     /**
      * @param string $name
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
-    public function setName(string $name);
+    public function setBannerName(string $name);
 
     /**
      * @param string $text
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setBannerContent(string $text);
 
     /**
      * @param string $text
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setBannerPopupContent(string $text);
 
     /**
      * @param string $startDate
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowStartDate(string $startDate);
 
     /**
      * @param string $endDate
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowEndDate(string $endDate);
 
     /**
      * @param bool $toggle
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setShowOnce(bool $toggle);
 
     /**
      * @param string $code
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setGroupCode(string $code);
 
     /**
      * @param string $name
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setDesktopImage(string $name);
 
     /**
      * @param string $name
-     * @return mixed
+     * @return \M2task\BannerManagement\Model\Banner
      */
     public function setMobileImage(string $name);
 }

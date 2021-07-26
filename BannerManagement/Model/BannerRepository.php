@@ -12,7 +12,6 @@ use M2task\BannerManagement\Api\Data\BannerSearchResultInterfaceFactory;
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
 use M2task\BannerManagement\Model\ResourceModel\BannerResource;
 use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory as BannerCollectionFactory;
-use Zend_Db_Expr;
 
 
 class BannerRepository implements BannerRepositoryInterface
@@ -105,9 +104,10 @@ class BannerRepository implements BannerRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        $collection = $this->bannerCollectionFactory->create(); // Создаю коллекцию всех баннеров
+        $collection = $this->bannerCollectionFactory->create();
 
-        $this->collectionProcessor->process($searchCriteria, $collection); // collectionProcessor нужен для обработки всех фильтров, сортировок и пагинации
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
         $searchResults = $this->searchResultFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         /** @var TYPE_NAME $collection */

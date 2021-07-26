@@ -6,4 +6,30 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
+    <route method="GET" url="/V1/banner/get/:viewed_banners/:banners_group">
+        <service class="M2task\BannerManagement\Api\BannerRestInterface" method="getRandomBanner"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+<!--    <route method="GET" url="/V1/banner/get/:sort">-->
+<!--        <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="getList"/>-->
+<!--        <resources>-->
+<!--            <resource ref="anonymous"/>-->
+<!--        </resources>-->
+<!--    </route>-->
+
+    <route method="POST" url="/V1/banner/save">
+        <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="admin"/>
+        </resources>
+    </route>
+
+    <route method="DELETE" url="/V1/banner/delete">
+        <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="delete"/>
+        <resources>
+            <resource ref="admin"/>
+        </resources>
+    </route>
 </routes>

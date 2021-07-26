@@ -56,7 +56,6 @@ class Banner implements BannerRestInterface
         $this->jsonSerializer = $jsonSerializer;
     }
 
-
     /**
      * @param string $banners_group
      * @param string $viewed_banners

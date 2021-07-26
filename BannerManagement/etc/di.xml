@@ -13,8 +13,11 @@
             <argument name="resourceModel" xsi:type="string">M2task\BannerManagement\Model\ResourceModel\BannerResource</argument>
         </arguments>
     </virtualType>
+
     <preference for="M2task\BannerManagement\Api\BannerRepositoryInterface" type="M2task\BannerManagement\Model\BannerRepository" />
     <preference for="M2task\BannerManagement\Api\Data\BannerSearchResultInterface" type="M2task\BannerManagement\Model\BannerSearchResult" />
+    <preference for="M2task\BannerManagement\Api\BannerRestInterface" type="M2task\BannerManagement\Model\Rest\Banner" />
+    <preference for="M2task\BannerManagement\Api\Data\BannerInterface" type="M2task\BannerManagement\Model\Banner" />
 
     <virtualType name="M2task\BannerManagement\Model\Api\SearchCriteria\BannerFilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
         <arguments>
@@ -51,7 +54,7 @@
             </argument>
         </arguments>
     </type>
-    <preference for="M2task\BannerManagement\Api\BannerRestInterface" type="M2task\BannerManagement\Model\Rest\Banner" />
+
 </config>
 
 
