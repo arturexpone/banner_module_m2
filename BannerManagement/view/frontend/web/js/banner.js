@@ -28,6 +28,10 @@ define(
             });
         }
 
+        function bannerNotFoundError(message) {
+            $('.banner-wrapper').html('<p>' + message +'</p>');
+        }
+
         function setModalData(banner) {
             $('.banner-modal-popup_content').html(banner.banner_popup_text_content);
             $('.banner-content').html(banner.banner_text_content);
@@ -56,14 +60,21 @@ define(
         return function (options) {
             var query = "?query={GetRandomBanner(viewed_banners: \""
                 + (getViewedBannersInLS() || '0') + "\", group_code:" + "\""
-                + options.groupCode + "\")"
-                + "{banner_id banner_text_content banner_popup_text_content desktop_image mobile_image show_once}}";
+                + options.groupCode + "\"," + "store_views:" + "\"" + options.storeId
+                + "\")"
+                + "{banner_id banner_text_content banner_popup_text_content desktop_image mobile_image show_once store_views}}";
 
             $.ajax({
                 method: 'get',
                 url: options.baseUrl + query,
                 contentType: 'application/json',
                 success: function(data){
+
+                    if (data.errors) {
+                        bannerNotFoundError(data.errors[0].message);
+                        return;
+                    }
+
                     var banner = data.data.GetRandomBanner;
                     if (banner.show_once === '1') {
                         setBannerIdToLS(banner.banner_id);

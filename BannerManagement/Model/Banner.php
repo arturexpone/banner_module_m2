@@ -3,24 +3,31 @@
 namespace M2task\BannerManagement\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
+
 use M2task\BannerManagement\Api\Data\BannerInterface;
+
 
 class Banner extends AbstractExtensibleModel implements BannerInterface
 {
-    /**
-     *
-     */
+
     protected function _construct()
     {
         $this->_init(ResourceModel\BannerResource::class);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getBannerName()
     {
         return parent::getData(self::NAME);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStoreViews() {
+        return parent::getData(self::STORE_VIEWS);
     }
 
     /**
@@ -73,7 +80,7 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
 
     /**
      * @param string $name
-     * @return \M2task\BannerManagement\Model\Banner
+     * @return \M2task\BannerManagement\Model\Banner|null
      */
     public function setBannerName(string $name)
     {
@@ -94,6 +101,14 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
      */
     public function setBannerPopupContent(string $text) {
         return $this->setData(self::BANNER_POPUP_CONTENT, $text);
+    }
+
+    /**
+     * @param string $id
+     * @return \M2task\BannerManagement\Model\Banner
+     */
+    public function setStoreViews(string $id) {
+        return $this->setData(self::STORE_VIEWS, $id);
     }
 
     /**

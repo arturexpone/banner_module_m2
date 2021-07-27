@@ -4,6 +4,11 @@ namespace M2task\BannerManagement\Api\Data;
 use M2task\BannerManagement\Model\Banner;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
+/**
+ * CMS block interface.
+ * @api
+ * @since 100.0.2
+ */
 
 interface BannerInterface extends ExtensibleDataInterface
 {
@@ -17,12 +22,17 @@ interface BannerInterface extends ExtensibleDataInterface
     const GROUP_CODE = 'group_code';
     const DESKTOP_IMAGE = 'desktop_image';
     const MOBILE_IMAGE = 'mobile_image';
+    const STORE_VIEWS = 'store_views';
 
     /**
      * @return string
      */
     public function getId();
 
+    /**
+     * @return string
+     */
+    public function getStoreViews();
 
     /**
      * @return string
@@ -49,6 +59,12 @@ interface BannerInterface extends ExtensibleDataInterface
      * @return \M2task\BannerManagement\Model\Banner
      */
     public function setId($id);
+
+    /**
+     * @param string $id
+     * @return \M2task\BannerManagement\Model\Banner
+     */
+    public function setStoreViews(string $id);
 
     /**
      * @param string $name

@@ -12,12 +12,6 @@
             <resource ref="self"/>
         </resources>
     </route>
-<!--    <route method="GET" url="/V1/banner/get/:sort">-->
-<!--        <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="getList"/>-->
-<!--        <resources>-->
-<!--            <resource ref="anonymous"/>-->
-<!--        </resources>-->
-<!--    </route>-->
 
     <route method="POST" url="/V1/banner/save">
         <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="save"/>

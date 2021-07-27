@@ -10,8 +10,8 @@ interface BannerRepositoryInterface
     public function getById($id);
 
     /**
-     * @param Data\BannerInterface $banner
-     * @return mixed
+     * @param \M2task\BannerManagement\Api\Data\BannerInterface $banner
+     * @return \M2task\BannerManagement\Api\Data\BannerInterface
      */
     public function save(\M2task\BannerManagement\Api\Data\BannerInterface $banner);
 

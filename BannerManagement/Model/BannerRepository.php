@@ -71,8 +71,8 @@ class BannerRepository implements BannerRepositoryInterface
     }
 
     /**
-     * @param BannerInterface $banner
-     * @return BannerInterface
+     * @param \M2task\BannerManagement\Api\Data\BannerInterface $banner
+     * @return \M2task\BannerManagement\Api\Data\BannerInterface
      */
     public function save(BannerInterface $banner)
     {
