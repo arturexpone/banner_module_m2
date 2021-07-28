@@ -73,7 +73,7 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 ->setGroupCode($data['group_code'])
                 ->setDesktopImage($data['desktop_image'])
                 ->setMobileImage($data['mobile_image'])
-                ->setStoreViews($data['store_views']);
+                ->setShownStoreId($data['shown_store_id']);
 
             try {
                 $this->bannerRepository->save($banner);

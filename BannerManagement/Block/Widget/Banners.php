@@ -9,7 +9,9 @@ use Magento\Store\Model\StoreManagerInterface as StoreManager;
 class Banners extends Template implements BlockInterface
 {
     const GROUP_CODE = 'banner_group_code';
+
     protected $_template = "widget/banner.phtml";
+
     /**
      * @var StoreManager
      */

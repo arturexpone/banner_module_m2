@@ -22,7 +22,7 @@ interface BannerInterface extends ExtensibleDataInterface
     const GROUP_CODE = 'group_code';
     const DESKTOP_IMAGE = 'desktop_image';
     const MOBILE_IMAGE = 'mobile_image';
-    const STORE_VIEWS = 'store_views';
+    const SHOWN_STORE_ID = 'shown_store_id';
 
     /**
      * @return string
@@ -32,7 +32,7 @@ interface BannerInterface extends ExtensibleDataInterface
     /**
      * @return string
      */
-    public function getStoreViews();
+    public function getShownStoreId();
 
     /**
      * @return string
@@ -64,7 +64,7 @@ interface BannerInterface extends ExtensibleDataInterface
      * @param string $id
      * @return \M2task\BannerManagement\Model\Banner
      */
-    public function setStoreViews(string $id);
+    public function setShownStoreId(string $id);
 
     /**
      * @param string $name

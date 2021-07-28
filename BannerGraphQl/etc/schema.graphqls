@@ -3,7 +3,7 @@ type Query
     GetRandomBanner (
         viewed_banners: String @doc(description: "Viewed banners in LS")
         group_code: String @doc(description: "Banner group code")
-        store_views: String @doc(description: "View store")
+        shown_store_id: String @doc(description: "View store")
     ): RandomBanner @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetRandomBanner") @doc(description:"Banner Module")
 }
 
@@ -15,5 +15,5 @@ type RandomBanner
     desktop_image : String @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetBannerImage") @doc(description:"Banner desktop image")
     mobile_image: String @resolver(class: "M2task\\BannerGraphQl\\Model\\Resolver\\GetBannerImage") @doc(description:"Banner mobile image")
     show_once: String
-    store_views: String
+    shown_store_id: String
 }

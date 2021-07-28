@@ -93,8 +93,8 @@ class GetRandomBanner implements ResolverInterface
                 'conditionType' => 'eq'
             ],
             [
-                'field' => 'store_views',
-                'value' => $args['store_views'],
+                'field' => 'shown_store_id',
+                'value' => $args['shown_store_id'],
                 'conditionType' => 'eq'
             ],
             [

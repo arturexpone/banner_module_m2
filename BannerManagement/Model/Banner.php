@@ -26,8 +26,8 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
     /**
      * @return string|null
      */
-    public function getStoreViews() {
-        return parent::getData(self::STORE_VIEWS);
+    public function getShownStoreId() {
+        return parent::getData(self::SHOWN_STORE_ID);
     }
 
     /**
@@ -107,8 +107,8 @@ class Banner extends AbstractExtensibleModel implements BannerInterface
      * @param string $id
      * @return \M2task\BannerManagement\Model\Banner
      */
-    public function setStoreViews(string $id) {
-        return $this->setData(self::STORE_VIEWS, $id);
+    public function setShownStoreId(string $id) {
+        return $this->setData(self::SHOWN_STORE_ID, $id);
     }
 
     /**
