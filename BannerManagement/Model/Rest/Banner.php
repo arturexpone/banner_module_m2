@@ -62,11 +62,12 @@ class Banner implements BannerRestInterface
      * @return string
      * @throws LocalizedException
      */
-    public function getRandomBanner($banners_group, $viewed_banners = '0')
+    public function getRandomBanner($banners_group, $storeIds, $viewed_banners = '0')
     {
         $currentDate = $this->date->date('Y.m.d');
         $this->searchCriteriaBuilder
             ->addFilter('group_code', $banners_group)
+            ->addFilter('shown_store_id', $storeIds, 'finset')
             ->addFilter('banner_id', $viewed_banners, 'nin')
             ->addFilter('show_start_date', $currentDate, 'lteq')
             ->addFilter('show_end_date', $currentDate, 'gteq');

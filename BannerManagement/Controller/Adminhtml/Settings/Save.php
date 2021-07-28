@@ -12,6 +12,8 @@ use M2task\BannerManagement\Model\BannerFactory;
 
 class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
 {
+
+    const STORE_IDS = 'shown_store_id';
     /**
      * @var BannerFactory
      */
@@ -62,7 +64,8 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 return $resultRedirect->setPath('*/*/');
             }
 
-            $data = $this->filterFoodData($data);
+            $data = $this->filterImageData($data);
+            $data = $this->filterStoreData($data);
 
             $banner->setName($data['banner_name'])
                 ->setBannerContent($data['banner_text_content'])
@@ -73,7 +76,7 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 ->setGroupCode($data['group_code'])
                 ->setDesktopImage($data['desktop_image'])
                 ->setMobileImage($data['mobile_image'])
-                ->setShownStoreId($data['shown_store_id']);
+                ->setShownStoreId($data[self::STORE_IDS]);
 
             try {
                 $this->bannerRepository->save($banner);
@@ -88,7 +91,7 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
         return $resultRedirect->setPath('*/*/');
     }
 
-    public function filterFoodData($data)
+    public function filterImageData($data)
     {
         $devices = ['desktop', 'mobile'];
         foreach ($devices as $device) {
@@ -96,7 +99,20 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 $data[$device . '_image'] = $data[$device . '_image'][0]['name'];
             }
         }
+
         return $data;
     }
 
+    public function filterStoreData($data)
+    {
+        $storeIds = '';
+        foreach ($data[self::STORE_IDS] as $i => $store) {
+            $storeIds .=
+                $i > 0 ? ',' . $store : $store;
+        }
+
+        $data[self::STORE_IDS] = $storeIds;
+
+        return $data;
+    }
 }

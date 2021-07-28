@@ -1,12 +1,6 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-    <route method="GET" url="/V1/banner/getRandomBanner/:viewed_banners/:banners_group">
-        <service class="M2task\BannerManagement\Api\BannerRestInterface" method="getRandomBanner"/>
-        <resources>
-            <resource ref="anonymous"/>
-        </resources>
-    </route>
-    <route method="GET" url="/V1/banner/get/:viewed_banners/:banners_group">
+    <route method="GET" url="/V1/banner/getRandomBanner/:viewed_banners/:store_ids/:banners_group">
         <service class="M2task\BannerManagement\Api\BannerRestInterface" method="getRandomBanner"/>
         <resources>
             <resource ref="self"/>
