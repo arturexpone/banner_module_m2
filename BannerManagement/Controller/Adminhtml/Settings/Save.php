@@ -111,7 +111,7 @@ class Save extends \M2task\BannerManagement\Controller\Adminhtml\BannerIndex
                 $i > 0 ? ',' . $store : $store;
         }
 
-        $data[self::STORE_IDS] = array_join($data[self::STORE_IDS], ',');
+        $data[self::STORE_IDS] = implode(',', $data[self::STORE_IDS]);
 
         return $data;
     }

@@ -103,7 +103,7 @@ class Banner implements BannerRestInterface
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $filter = $this->filter
             ->setField('store_id')
-            ->setValue(0);
+            ->setValue(1213123);
         $filterGroup = $this->filterGroup->setFilters([$filter]);
         $searchCriteria->setFilterGroups([$filterGroup]);
         $banners = $this->bannerRepository->getList($searchCriteria)->getItems();
