@@ -3,12 +3,11 @@
 
 namespace M2task\BannerManagement\Model\Api\SearchCriteria;
 
-use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor\CustomFilterInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
 
-class BannerCustomFilter implements CustomFilterInterface
+class StoreFilter implements CustomFilterInterface
 {
     /**
      * Apply category_id Filter to Product Collection
@@ -19,7 +18,8 @@ class BannerCustomFilter implements CustomFilterInterface
      */
     public function apply(Filter $filter, AbstractDb $collection)
     {
-        $collection->getSelect()->orderRand('store_id')->limit(1);
+        $collection->addStoreFilter($filter->getValue());
+
         return true;
     }
 

@@ -13,4 +13,5 @@ class BannerResource extends AbstractDb
     {
         $this->_init('banner', 'banner_id');
     }
+
 }

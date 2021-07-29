@@ -3,6 +3,7 @@
 namespace M2task\BannerManagement\Model\Rest;
 
 use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
@@ -33,12 +34,17 @@ class Banner implements BannerRestInterface
      * @var Json
      */
     private $jsonSerializer;
+    /**
+     * @var FilterGroup
+     */
+    private $filterGroup;
 
     /**
      * GetRandomBanner constructor.
      * @param BannerRepositoryInterface $bannerRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param Filter $filter
+     * @param FilterGroup $filterGroup
      * @param DateTime $date
      * @param Json $jsonSerializer
      */
@@ -46,6 +52,7 @@ class Banner implements BannerRestInterface
         BannerRepositoryInterface $bannerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Filter $filter,
+        FilterGroup $filterGroup,
         DateTime $date,
         Json $jsonSerializer
     ) {
@@ -54,21 +61,22 @@ class Banner implements BannerRestInterface
         $this->filter = $filter;
         $this->date = $date;
         $this->jsonSerializer = $jsonSerializer;
+        $this->filterGroup = $filterGroup;
     }
 
     /**
-     * @param string $banners_group
-     * @param string $viewed_banners
+     * @param string $bannersGroup
+     * @param string $viewedBanners
      * @return string
      * @throws LocalizedException
      */
-    public function getRandomBanner($banners_group, $storeIds, $viewed_banners = '0')
+    public function getRandomBanner($bannersGroup, $storeIds, $viewedBanners = '0')
     {
         $currentDate = $this->date->date('Y.m.d');
         $this->searchCriteriaBuilder
-            ->addFilter('group_code', $banners_group)
+            ->addFilter('group_code', $bannersGroup)
             ->addFilter('shown_store_id', $storeIds, 'finset')
-            ->addFilter('banner_id', $viewed_banners, 'nin')
+            ->addFilter('banner_id', $viewedBanners, 'nin')
             ->addFilter('show_start_date', $currentDate, 'lteq')
             ->addFilter('show_end_date', $currentDate, 'gteq');
 
@@ -85,5 +93,26 @@ class Banner implements BannerRestInterface
         } else {
             throw new LocalizedException(__('Banner not found'));
         }
+    }
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function getBanner()
+    {
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $filter = $this->filter
+            ->setField('store_id')
+            ->setValue(0);
+        $filterGroup = $this->filterGroup->setFilters([$filter]);
+        $searchCriteria->setFilterGroups([$filterGroup]);
+        $banners = $this->bannerRepository->getList($searchCriteria)->getItems();
+        $res = [];
+
+        foreach ($banners as $banner) {
+            $res[] = $banner->getData();
+        }
+
+        return $this->jsonSerializer->serialize($res);
     }
 }

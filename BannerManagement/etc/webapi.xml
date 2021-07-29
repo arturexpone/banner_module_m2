@@ -8,7 +8,7 @@
     </route>
 
     <route method="GET" url="/V1/banner/getBanner">
-        <service class="M2task\BannerManagement\Api\BannerStoreRestInterface" method="getBanner"/>
+        <service class="M2task\BannerManagement\Api\BannerRestInterface" method="getBanner"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>

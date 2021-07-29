@@ -8,7 +8,6 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 use M2task\BannerManagement\Api\Data\BannerInterface;
-use M2task\BannerManagement\Api\Data\BannerSearchResultInterfaceFactory;
 use M2task\BannerManagement\Api\BannerRepositoryInterface;
 use M2task\BannerManagement\Model\ResourceModel\BannerResource;
 use M2task\BannerManagement\Model\ResourceModel\Banner\CollectionFactory as BannerCollectionFactory;
@@ -29,10 +28,6 @@ class BannerRepository implements BannerRepositoryInterface
      */
     private $searchResultFactory;
 
-    /**
-     * @var BannerSearchResultInterfaceFactory
-     */
-    private $bannerSearchResultInterfaceFactory;
     private $bannerResource;
     /**
      * @var CollectionProcessorInterface
@@ -42,14 +37,12 @@ class BannerRepository implements BannerRepositoryInterface
     public function __construct(
         BannerFactory $bannerFactory,
         BannerCollectionFactory $bannerCollectionFactory,
-        BannerSearchResultInterfaceFactory $bannerSearchResultInterfaceFactory,
         BannerResource $bannerResource,
         \M2task\BannerManagement\Model\BannerSearchResultFactory $searchResultFactory,
         CollectionProcessorInterface $collectionProcessor
     ) {
         $this->bannerFactory = $bannerFactory;
         $this->bannerCollectionFactory = $bannerCollectionFactory;
-        $this->bannerSearchResultInterfaceFactory = $bannerSearchResultInterfaceFactory;
         $this->searchResultFactory = $searchResultFactory;
         $this->bannerResource = $bannerResource;
         $this->collectionProcessor = $collectionProcessor;

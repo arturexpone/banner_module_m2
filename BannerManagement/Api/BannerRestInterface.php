@@ -11,11 +11,16 @@ interface BannerRestInterface
 {
     /**
      *
-     * @api
-     * @param string $viewed_banners
-     * @param string $banners_group
+     * @param string $viewedBanners
+     * @param string $bannersGroup
      * @param string $storeIds
      * @return string
+     *@api
      */
-    public function getRandomBanner($banners_group, $storeIds, $viewed_banners);
+    public function getRandomBanner($bannersGroup, $storeIds, $viewedBanners);
+
+    /**
+     * @return bool|mixed|string
+     */
+    public function getBanner();
 }
