@@ -2,7 +2,7 @@
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="banner" resource="default" engine="innodb" comment="Banner">
-        <column xsi:type="int" name="banner_id" padding="10" unsigned="true" nullable="false" identity="true"
+        <column xsi:type="int" name="banner_id" padding="10" nullable="false" identity="true"
                 comment="Entity Id"/>
         <column xsi:type="varchar" name="banner_name" nullable="false" length="255" comment="Banner Name"/>
         <column xsi:type="date" name="show_start_date" nullable="true" comment="Show start date"/>
@@ -16,6 +16,25 @@
         <column xsi:type="varchar" name="shown_store_id" nullable="true" length="255" comment="Shown store id"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="banner_id"/>
+        </constraint>
+    </table>
+    <table name="banner_store_link" resource="default" engine="innodb" comment="Banner store link">
+        <column xsi:type="int" name="link_id" padding="10" nullable="false" identity="true"
+                comment="Link Id"/>
+        <column xsi:type="int" name="banner_id" padding="10" nullable="false"
+                comment="Banner Id"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true"
+                padding="10" nullable="false"
+                comment="Store Id"/>
+        <constraint xsi:type="foreign" referenceId="BANNER_BANNER_ID_BANNER_BANNER_ID"
+                    table="banner_store_link" column="banner_id" referenceTable="banner"
+                    referenceColumn="banner_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="STORE_STORE_ID_STORE_STORE_ID"
+                    table="banner_store_link" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="link_id"/>
         </constraint>
     </table>
 </schema>

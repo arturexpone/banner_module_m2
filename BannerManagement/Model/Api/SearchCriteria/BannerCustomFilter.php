@@ -19,7 +19,7 @@ class BannerCustomFilter implements CustomFilterInterface
      */
     public function apply(Filter $filter, AbstractDb $collection)
     {
-        $collection->getSelect()->orderRand('banner_id')->limit(1);
+        $collection->getSelect()->orderRand('store_id')->limit(1);
         return true;
     }
 

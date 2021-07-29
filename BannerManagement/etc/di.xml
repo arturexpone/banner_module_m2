@@ -19,6 +19,11 @@
     <preference for="M2task\BannerManagement\Api\BannerRestInterface" type="M2task\BannerManagement\Model\Rest\Banner" />
     <preference for="M2task\BannerManagement\Api\Data\BannerInterface" type="M2task\BannerManagement\Model\Banner" />
 
+    <preference for="M2task\BannerManagement\Api\BannerStoreRepositoryInterface" type="M2task\BannerManagement\Model\BannerStoreRepository" />
+    <preference for="M2task\BannerManagement\Api\Data\BannerStoreSearchResultInterface" type="M2task\BannerManagement\Model\BannerStoreSearchResult" />
+    <preference for="M2task\BannerManagement\Api\BannerStoreRestInterface" type="M2task\BannerManagement\Model\Rest\BannerStore" />
+    <preference for="M2task\BannerManagement\Api\Data\BannerStoreInterface" type="M2task\BannerManagement\Model\BannerStore" />
+
     <virtualType name="M2task\BannerManagement\Model\Api\SearchCriteria\BannerFilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
         <arguments>
             <argument name="customFilters" xsi:type="array">
@@ -27,16 +32,34 @@
         </arguments>
     </virtualType>
 
+
+    <virtualType name="M2task\BannerManagement\Model\Api\SearchCriteria\CollectionProcessor\CustomJoinProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\JoinProcessor">
+        <arguments>
+            <argument name="customJoins" xsi:type="array">
+                <item name="store_id" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\CollectionProcessor\JoinProcessor\Rate</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <virtualType name="M2task\BannerManagement\Model\Api\SearchCriteria\BannerCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
+                <item name="joins" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\CollectionProcessor\CustomJoinProcessor</item>
                 <item name="filters" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\BannerFilterProcessor</item>
                 <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
                 <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
             </argument>
+
         </arguments>
     </virtualType>
+
     <type name="M2task\BannerManagement\Model\BannerRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\BannerCollectionProcessor</argument>
+        </arguments>
+    </type>
+
+    <type name="M2task\BannerManagement\Model\BannerStoreRepository">
         <arguments>
             <argument name="collectionProcessor" xsi:type="object">M2task\BannerManagement\Model\Api\SearchCriteria\BannerCollectionProcessor</argument>
         </arguments>

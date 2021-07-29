@@ -1,0 +1,33 @@
+{
+    "banner": {
+        "column": {
+            "banner_id": true,
+            "banner_name": true,
+            "show_start_date": true,
+            "show_end_date": true,
+            "desktop_image": true,
+            "mobile_image": true,
+            "banner_text_content": true,
+            "banner_popup_text_content": true,
+            "show_once": true,
+            "group_code": true,
+            "shown_store_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "banner_store_link": {
+        "column": {
+            "link_id": true,
+            "banner_id": true,
+            "store_id": true
+        },
+        "constraint": {
+            "BANNER_STORE_LINK_BANNER_ID_BANNER_BANNER_ID": true,
+            "BANNER_STORE_LINK_STORE_ID_STORE_STORE_ID": true,
+            "PRIMARY": true,
+            "BANNER_STORE_LINK_BANNER_ID_STORE_ID": true
+        }
+    }
+}

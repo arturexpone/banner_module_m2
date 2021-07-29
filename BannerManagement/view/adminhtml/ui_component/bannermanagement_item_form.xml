@@ -41,11 +41,6 @@
             <label/>
         </settings>
         <field name="id" formElement="input">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">label</item>
-                </item>
-            </argument>
             <settings>
                 <dataType>text</dataType>
                 <visible>false</visible>
@@ -53,11 +48,6 @@
             </settings>
         </field>
         <field name="banner_name" formElement="input">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">label</item>
-                </item>
-            </argument>
             <settings>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
@@ -68,11 +58,6 @@
             </settings>
         </field>
         <field name="banner_text_content" formElement="wysiwyg" template="ui/form/field">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">Fabric</item>
-                </item>
-            </argument>
             <settings>
                 <label translate="true">Banner text</label>
                 <dataScope>banner_text_content</dataScope>
@@ -86,11 +71,6 @@
             </formElements>
         </field>
         <field name="banner_popup_text_content" formElement="wysiwyg" template="ui/form/field">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">Fabric</item>
-                </item>
-            </argument>
             <settings>
                 <label translate="true">Popup text</label>
                 <dataScope>banner_popup_text_content</dataScope>
@@ -104,11 +84,6 @@
             </formElements>
         </field>
         <field name="show_start_date" formElement="date">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">some_source</item>
-                </item>
-            </argument>
             <settings>
                 <validation>
                     <rule name="validate-date" xsi:type="boolean">true</rule>
@@ -121,11 +96,6 @@
             </settings>
         </field>
         <field name="show_end_date" formElement="date">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">some_source</item>
-                </item>
-            </argument>
             <settings>
                 <validation>
                     <rule name="validate-date" xsi:type="boolean">true</rule>

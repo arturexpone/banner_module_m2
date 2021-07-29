@@ -7,6 +7,13 @@
         </resources>
     </route>
 
+    <route method="GET" url="/V1/banner/getBanner">
+        <service class="M2task\BannerManagement\Api\BannerStoreRestInterface" method="getBanner"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
     <route method="POST" url="/V1/banner/save">
         <service class="M2task\BannerManagement\Api\BannerRepositoryInterface" method="save"/>
         <resources>
